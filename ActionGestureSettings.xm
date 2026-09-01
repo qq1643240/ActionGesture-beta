@@ -32,7 +32,7 @@
     NSString *assignmentIdentifier = helper.currentGesture;
     NSString *shortcutTitle = [AGShortcutActions titleForShortcut:[AGShortcutActions shortcutForAssignmentIdentifier:assignmentIdentifier]];
     UIButton *shortcutButton = [self ag_selectorButtonWithTitle:shortcutTitle
-                                                            menu:nil
+                                                            menu:[UIMenu menuWithTitle:@"" children:@[]]
                                               accessibilityLabel:@"快捷动作"];
     __weak UIButton *weakShortcutButton = shortcutButton;
     shortcutButton.menu = [AGShortcutActions menuForAssignmentIdentifier:assignmentIdentifier
@@ -61,7 +61,7 @@
 
 %new
 - (UIButton *)ag_selectorButtonWithTitle:(NSString *)title
-                                    menu:(nullable UIMenu *)menu
+                                    menu:(UIMenu *)menu
                       accessibilityLabel:(NSString *)accessibilityLabel {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     UIButtonConfiguration *configuration = [UIButtonConfiguration tintedButtonConfiguration];
