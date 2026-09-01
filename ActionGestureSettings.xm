@@ -61,7 +61,7 @@
 
 %new
 - (UIButton *)ag_selectorButtonWithTitle:(NSString *)title
-                                    menu:(UIMenu *)menu
+                                    menu:(nullable UIMenu *)menu
                       accessibilityLabel:(NSString *)accessibilityLabel {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     UIButtonConfiguration *configuration = [UIButtonConfiguration tintedButtonConfiguration];

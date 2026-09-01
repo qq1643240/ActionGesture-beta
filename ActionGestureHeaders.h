@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ActionButtonSettings (ActionGestureUI)
 - (void)ag_installSelectors;
 - (UIButton *)ag_selectorButtonWithTitle:(NSString *)title
-                                    menu:(UIMenu *)menu
+                                    menu:(nullable UIMenu *)menu
                       accessibilityLabel:(NSString *)accessibilityLabel;
 - (UIMenu *)ag_gestureMenu;
 - (void)ag_switchToGesture:(NSString *)gesture;
