@@ -1,6 +1,6 @@
-Package: com.qq1643240.actiongesturebeta
+Package: com.huami.actiongesture
 Name: ActionGesture-beta
-Version: 0.0-4~beta1
+Version: 0.0-4~beta2
 Architecture: iphoneos-arm
 Description: Custom gesture actions for the iPhone Action Button
 Maintainer: huami
