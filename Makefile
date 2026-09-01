@@ -18,7 +18,7 @@ TWEAK_NAME = ActionGesture
 ActionGesture_FILES = ActionGesture.xm ActionGestureSettings.xm ActionGestureHelper.m AGShortcutActions.m
 ActionGesture_CFLAGS += -fobjc-arc -Wno-deprecated-declarations -fno-modules
 ActionGesture_CCFLAGS += -fno-modules -fno-cxx-modules
-ActionGesture_FRAMEWORKS += Foundation UIKit CoreMotion
+ActionGesture_FRAMEWORKS += Foundation UIKit
 
 ifeq ($(SCHEME),roothide)
     ActionGesture_LIBRARIES += roothide

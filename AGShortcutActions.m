@@ -72,15 +72,24 @@ static NSString *const AGShortcutStoragePrefix = @"shortcut.assignment.";
 }
 
 + (BOOL)isNoActionSectionIdentifier:(NSString *)sectionIdentifier {
-    if (![sectionIdentifier isKindOfClass:NSString.class] || !sectionIdentifier.length) {
+    if (![sectionIdentifier isKindOfClass:NSString.class] ||
+        sectionIdentifier.length == 0) {
         return YES;
     }
+
+    // Be conservative: an unknown non-empty section must remain a native
+    // system action. Only exact NoAction identifiers may enter the shortcut
+    // branch, so Silent Mode and every other native action are preserved.
     NSString *identifier = sectionIdentifier.lowercaseString;
-    return [identifier containsString:@"none"] ||
-           [identifier containsString:@"noaction"] ||
-           [identifier containsString:@"no_action"] ||
-           [identifier containsString:@"noop"] ||
-           [identifier containsString:@"disabled"];
+    NSString *leaf = [[identifier componentsSeparatedByString:@"."] lastObject];
+    return [identifier isEqualToString:@"none"] ||
+           [identifier isEqualToString:@"noaction"] ||
+           [identifier isEqualToString:@"no_action"] ||
+           [identifier isEqualToString:@"noop"] ||
+           [leaf isEqualToString:@"none"] ||
+           [leaf isEqualToString:@"noaction"] ||
+           [leaf isEqualToString:@"no_action"] ||
+           [leaf isEqualToString:@"noop"];
 }
 
 + (UIMenu *)menuForAssignmentIdentifier:(NSString *)identifier
@@ -136,6 +145,9 @@ static NSString *const AGShortcutStoragePrefix = @"shortcut.assignment.";
     id workspace = [workspaceClass respondsToSelector:@selector(defaultWorkspace)]
         ? [workspaceClass defaultWorkspace] : nil;
     if (![workspace respondsToSelector:@selector(openURL:)]) return NO;
+
+    // Do not block the SpringBoard gesture path while LaunchServices opens
+    // the target app. The caller already owns the NoAction event.
     dispatch_async(dispatch_get_main_queue(), ^{
         [workspace openURL:url];
     });

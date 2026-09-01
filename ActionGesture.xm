@@ -17,13 +17,11 @@ static id<AGHardwareButtonEvent> AGCurrentButtonDownEvent;
 - (void)performActionsForButtonDown:(id<AGHardwareButtonEvent>)buttonDown {
     ActionGestureHelper *helper = [ActionGestureHelper sharedHelper];
     if (![helper canHandleButton:self]) {
-        [helper cancelDirectionSampling];
         AGPassThroughNative = YES;
         %orig;
         return;
     }
 
-    [helper beginDirectionSampling];
     AGPassThroughNative = NO;
     AGButtonIsDown = YES;
     AGDidRecognizeLongPress = NO;
@@ -39,12 +37,10 @@ static id<AGHardwareButtonEvent> AGCurrentButtonDownEvent;
 - (void)performActionsForButtonLongPress:
     (id<AGHardwareButtonEvent>)longPress {
     if (AGPassThroughNative) {
-        [[ActionGestureHelper sharedHelper] cancelDirectionSampling];
         %orig;
         return;
     }
     if (!AGButtonIsDown) {
-        [[ActionGestureHelper sharedHelper] cancelDirectionSampling];
         return;
     }
 
@@ -65,14 +61,12 @@ static id<AGHardwareButtonEvent> AGCurrentButtonDownEvent;
 
 - (void)performActionsForButtonUp:(id<AGHardwareButtonEvent>)buttonUp {
     if (AGPassThroughNative) {
-        [[ActionGestureHelper sharedHelper] cancelDirectionSampling];
         AGPassThroughNative = NO;
         AGCurrentButtonDownEvent = nil;
         %orig;
         return;
     }
     if (!AGButtonIsDown) {
-        [[ActionGestureHelper sharedHelper] cancelDirectionSampling];
         return;
     }
 

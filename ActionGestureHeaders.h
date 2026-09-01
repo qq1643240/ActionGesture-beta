@@ -41,13 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIButton *)ag_selectorButtonWithTitle:(NSString *)title
                                     menu:(UIMenu *)menu
                       accessibilityLabel:(NSString *)accessibilityLabel;
-- (UIButton *)ag_directionHelpButton;
 - (UIMenu *)ag_gestureMenu;
-- (UIMenu *)ag_directionMenu;
-- (void)ag_showDirectionHelp;
 - (void)ag_switchToGesture:(NSString *)gesture;
-- (void)ag_switchToDirection:(NSString *)direction;
-- (void)ag_setDirectionModeEnabled:(BOOL)enabled;
 - (void)ag_replaceController;
 @end
 
