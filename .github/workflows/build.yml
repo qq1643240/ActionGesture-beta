@@ -1,0 +1,38 @@
+name: Build ActionGesture-beta
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  roothide:
+    name: RootHide arm64e package
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install RootHide Theos and signing tools
+        run: |
+          brew install ldid
+          git clone --depth=1 --recursive https://github.com/roothide/theos.git "$HOME/theos"
+          echo "THEOS=$HOME/theos" >> "$GITHUB_ENV"
+          echo "THEOS_PACKAGE_SCHEME=roothide" >> "$GITHUB_ENV"
+      - name: Build RootHide arm64e package
+        run: make package SCHEME=roothide FINALPACKAGE=1
+      - name: Upload RootHide arm64e deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: ActionGesture-beta-roothide-arm64e
+          path: packages/*arm64e.deb
+          if-no-files-found: error
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: packages/*arm64e.deb
+          generate_release_notes: true
